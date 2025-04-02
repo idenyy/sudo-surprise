@@ -47,7 +47,7 @@ i.congratulate(u, 'happyBirthday');
       }, 50);
       return () => clearInterval(interval);
     }
-  }, [showPS]);
+  }, [showPS, fullText]);
 
   return (
     <div>
