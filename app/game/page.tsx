@@ -27,7 +27,7 @@ export default function DropGame() {
       id: uuidv4(),
       x: Math.random() * (rect.width - 30),
       y: 0,
-      size: Math.random() * 20 + 14,
+      size: Math.random() * (35 - 20) + 20,
     };
     setSnowflakes((prev) => [...prev, newSnowflake]);
   };
@@ -35,18 +35,23 @@ export default function DropGame() {
   useEffect(() => {
     const interval = setInterval(() => {
       addSnowflake();
-    }, 500);
+    }, 400);
 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    if (caughtCount >= 20) {
+    if (caughtCount >= 100) {
       setTimeout(() => {
         router.push("/congratulations");
-      }, 500);
+      }, 300);
     }
   }, [caughtCount, router]);
+
+  const handleCatch = (id: string) => {
+    setSnowflakes((prev) => prev.filter((s) => s.id !== id));
+    setCaughtCount((prev) => prev + 1);
+  };
 
   return (
     <div
@@ -56,29 +61,27 @@ export default function DropGame() {
       {snowflakes.map((snowflake) => (
         <motion.div
           key={snowflake.id}
-          initial={{ y: -40 }}
+          initial={{ y: -60 }}
           animate={{ y: "100vh" }}
           transition={{
             duration: 4 + Math.random() * 2,
             ease: "easeIn",
           }}
-          onMouseDown={() => {
-            setSnowflakes((prev) => prev.filter((s) => s.id !== snowflake.id));
-            setCaughtCount((prev) => prev + 1);
-          }}
+          onMouseDown={() => handleCatch(snowflake.id)}
+          onTouchStart={() => handleCatch(snowflake.id)}
           className="absolute text-green-400 cursor-pointer flex items-center justify-center"
           style={{
             left: `${snowflake.x}px`,
             fontSize: `${snowflake.size}px`,
-            width: `${snowflake.size * 1.5}px`,
-            height: `${snowflake.size * 1.5}px`,
+            width: `${snowflake.size * 2}px`,
+            height: `${snowflake.size * 2}px`,
           }}
         >
           <FaSnowflake style={{ pointerEvents: "none" }} />
         </motion.div>
       ))}
 
-      <div className="absolute top-4 left-4 text-white text-xl font-bold bg-gray-100 blur-md p-2 rounded-lg">
+      <div className="absolute top-4 left-4 text-white text-xl font-bold bg-zinc-900 p-2 rounded-lg">
         {caughtCount}/100
       </div>
     </div>
