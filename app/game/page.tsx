@@ -27,7 +27,7 @@ export default function DropGame() {
       id: uuidv4(),
       x: Math.random() * (rect.width - 30),
       y: 0,
-      size: Math.random() * (35 - 20) + 20,
+      size: Math.random() * (30 - 20) + 20,
     };
     setSnowflakes((prev) => [...prev, newSnowflake]);
   };
@@ -35,7 +35,7 @@ export default function DropGame() {
   useEffect(() => {
     const interval = setInterval(() => {
       addSnowflake();
-    }, 400);
+    }, 300);
 
     return () => clearInterval(interval);
   }, []);
