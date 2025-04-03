@@ -16,7 +16,7 @@ interface Snowflake {
 export default function DropGame() {
   const [snowflakes, setSnowflakes] = useState<Snowflake[]>([]);
   const [caughtCount, setCaughtCount] = useState(0);
-  const gameAreaRef = useRef<HTMLDivElement | null>(null);
+  const gameAreaRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const addSnowflake = () => {
@@ -25,16 +25,11 @@ export default function DropGame() {
     const rect = gameAreaRef.current.getBoundingClientRect();
     const newSnowflake: Snowflake = {
       id: uuidv4(),
-      x: Math.random() * rect.width,
+      x: Math.random() * (rect.width - 30),
       y: 0,
-      size: Math.random() * 20 + 12,
+      size: Math.random() * 20 + 14,
     };
     setSnowflakes((prev) => [...prev, newSnowflake]);
-  };
-
-  const catchSnowflake = (id: string) => {
-    setSnowflakes((prev) => prev.filter((snowflake) => snowflake.id !== id));
-    setCaughtCount((prev) => prev + 1);
   };
 
   useEffect(() => {
@@ -46,7 +41,7 @@ export default function DropGame() {
   }, []);
 
   useEffect(() => {
-    if (caughtCount >= 69) {
+    if (caughtCount >= 20) {
       setTimeout(() => {
         router.push("/congratulations");
       }, 500);
@@ -67,19 +62,24 @@ export default function DropGame() {
             duration: 4 + Math.random() * 2,
             ease: "easeIn",
           }}
-          onClick={() => catchSnowflake(snowflake.id)}
-          className="absolute text-green-400"
+          onMouseDown={() => {
+            setSnowflakes((prev) => prev.filter((s) => s.id !== snowflake.id));
+            setCaughtCount((prev) => prev + 1);
+          }}
+          className="absolute text-green-400 cursor-pointer flex items-center justify-center"
           style={{
-            left: snowflake.x,
+            left: `${snowflake.x}px`,
             fontSize: `${snowflake.size}px`,
+            width: `${snowflake.size * 1.5}px`,
+            height: `${snowflake.size * 1.5}px`,
           }}
         >
-          <FaSnowflake />
+          <FaSnowflake style={{ pointerEvents: "none" }} />
         </motion.div>
       ))}
 
-      <div className="absolute top-4 left-4 text-white text-xl font-bold">
-        {caughtCount}
+      <div className="absolute top-4 left-4 text-white text-xl font-bold bg-gray-100 blur-md p-2 rounded-lg">
+        {caughtCount}/100
       </div>
     </div>
   );

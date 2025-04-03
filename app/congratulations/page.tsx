@@ -21,7 +21,7 @@ i = Boy("Diniska");
 u = Girl("Mariya aka bibizyana");
 # 9 березня я зустрів тебе
 i.meet(u);
-# Протягом цього часу ти стала маленьким джерелом позитиву
+# Протягом цього часу ти стала для мене маленьким джерелом позитиву
 u.become(smallSourceOf('positivity'));
 # Тепер я посміхаюсь кожен день, згадуючи тебе
 i.smileEveryDay(() => i.remember(u));
@@ -63,8 +63,8 @@ i.congratulate(u, 'happyBirthday');
             {!isOpen ? (
               <motion.div
                 initial={{ y: 0 }}
-                animate={{ y: [0, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
+                animate={{ y: [0, -7, 0] }}
+                transition={{ repeat: Infinity, duration: 1 }}
                 onClick={() => setIsOpen(true)}
               >
                 <motion.img
@@ -83,15 +83,16 @@ i.congratulate(u, 'happyBirthday');
                 transition={{ delay: 0 }}
               >
                 <p className="mb-2">Маленька,</p>
-                <p>
+                <p className="text-balance">
                   У цей світлий і пам’ятний день хочеться побажати тобі всього
                   самого найкращого, що є в цьому світі: любові, щастя, удачі,
-                  тепла і доброти. Нехай у твоєму домі завжди панують гармонія,
-                  достаток і радість, а поруч будуть рідні та віддані друзі.
-                  Бажаю, щоб робота приносила задоволення, а кожен новий день
-                  дарував нові можливості й приводи для усмішок. Нехай всі,
-                  навіть самі зухвалі мрії, рано чи пізно збудуться. Будь собою
-                  і ніколи не сумнівайся в своїй красі ❤
+                  тепла і доброти. Щиро бажаю, щоб у тебе, все в житті було
+                  прекрасно, міцна та дружна родина, відмінні друзі, улюблена
+                  робота, достаток у домі. Бажаю, щоб ніколи не втрачала
+                  оптимістичного настрою, а кожен новий день дарував нові
+                  можливості й приводи для усмішок. Нехай всі, навіть самі
+                  зухвалі мрії, рано чи пізно збудуться. Будь собою і ніколи не
+                  сумнівайся в своїй красі ❤
                 </p>
               </motion.div>
             )}
@@ -99,7 +100,7 @@ i.congratulate(u, 'happyBirthday');
 
           <div>
             <motion.button
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/game")}
               className="absolute bottom-4 left-4 mt-6 px-6 py-3 bg-black border border-green-500 text-green-400 font-semibold rounded-xl shadow-lg transition transform hover:scale-105"
               whileTap={{ scale: 0.9 }}
             >

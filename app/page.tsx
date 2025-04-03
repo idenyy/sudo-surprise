@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import DropGame from "@/components/game";
+import { useRouter } from "next/navigation";
 
 export default function BirthdayApp() {
   const [step, setStep] = useState(0);
   const [command, setCommand] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
   const [hacking, setHacking] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const [code, setCode] = useState("");
   const [cracked, setCracked] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     setTimeout(() => setStep(1), 1000);
@@ -29,6 +29,14 @@ export default function BirthdayApp() {
       setTimeout(() => setCracked(true), 10000);
     }
   };
+
+  useEffect(() => {
+    if (cracked) {
+      setTimeout(() => {
+        router.push("/game");
+      }, 500);
+    }
+  }, [cracked, router]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-black text-green-400 font-mono px-4">
@@ -115,7 +123,6 @@ export default function BirthdayApp() {
               [*] Отримано доступ
             </motion.p>
           )}
-          {cracked && <DropGame />}
         </div>
       )}
     </div>
