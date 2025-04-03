@@ -35,13 +35,13 @@ export default function DropGame() {
   useEffect(() => {
     const interval = setInterval(() => {
       addSnowflake();
-    }, 300);
+    }, 350);
 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    if (caughtCount >= 100) {
+    if (caughtCount >= 10) {
       setTimeout(() => {
         router.push("/congratulations");
       }, 300);
@@ -49,6 +49,9 @@ export default function DropGame() {
   }, [caughtCount, router]);
 
   const handleCatch = (id: string) => {
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
     setSnowflakes((prev) => prev.filter((s) => s.id !== id));
     setCaughtCount((prev) => prev + 1);
   };
@@ -58,31 +61,33 @@ export default function DropGame() {
       ref={gameAreaRef}
       className="relative w-full h-screen overflow-hidden bg-black"
     >
-      {snowflakes.map((snowflake) => (
-        <motion.div
-          key={snowflake.id}
-          initial={{ y: -60 }}
-          animate={{ y: "100vh" }}
-          transition={{
-            duration: 4 + Math.random() * 2,
-            ease: "easeIn",
-          }}
-          onMouseDown={() => handleCatch(snowflake.id)}
-          onTouchStart={() => handleCatch(snowflake.id)}
-          className="absolute text-green-400 cursor-pointer flex items-center justify-center"
-          style={{
-            left: `${snowflake.x}px`,
-            fontSize: `${snowflake.size}px`,
-            width: `${snowflake.size * 2}px`,
-            height: `${snowflake.size * 2}px`,
-          }}
-        >
-          <FaSnowflake style={{ pointerEvents: "none" }} />
-        </motion.div>
-      ))}
+      <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(0,255,0,0.15)_0%,rgba(0,0,0,1)_100%)]">
+        {snowflakes.map((snowflake) => (
+          <motion.div
+            key={snowflake.id}
+            initial={{ y: -60 }}
+            animate={{ y: "100vh" }}
+            transition={{
+              duration: 4 + 0.5 * 2,
+              ease: "easeIn",
+            }}
+            onMouseDown={() => handleCatch(snowflake.id)}
+            onTouchStart={() => handleCatch(snowflake.id)}
+            className="absolute text-white cursor-pointer flex items-center justify-center"
+            style={{
+              left: `${snowflake.x}px`,
+              fontSize: `${snowflake.size}px`,
+              width: `${snowflake.size * 1.7}px`,
+              height: `${snowflake.size * 1.7}px`,
+            }}
+          >
+            <FaSnowflake style={{ pointerEvents: "none" }} />
+          </motion.div>
+        ))}
 
-      <div className="absolute top-4 left-4 text-white text-xl font-bold bg-zinc-900 p-2 rounded-lg">
-        {caughtCount}/100
+        <div className="absolute top-4 left-4 text-white text-xl font-bold bg-zinc-900 p-2 rounded-lg">
+          {caughtCount}/100
+        </div>
       </div>
     </div>
   );
