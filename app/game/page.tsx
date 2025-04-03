@@ -41,7 +41,7 @@ export default function DropGame() {
   }, []);
 
   useEffect(() => {
-    if (caughtCount >= 10) {
+    if (caughtCount >= 100) {
       setTimeout(() => {
         router.push("/congratulations");
       }, 300);
@@ -50,7 +50,7 @@ export default function DropGame() {
 
   const handleCatch = (id: string) => {
     if (navigator.vibrate) {
-      navigator.vibrate(50);
+      navigator.vibrate(100);
     }
     setSnowflakes((prev) => prev.filter((s) => s.id !== id));
     setCaughtCount((prev) => prev + 1);
